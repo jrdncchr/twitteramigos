@@ -1,0 +1,140 @@
+/* latin-ext */
+@font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Work Sans'), local('WorkSans-Regular'), url(../fonts/work-sans2.woff2) format('woff2');
+    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+    font-family: 'Work Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Work Sans'), local('WorkSans-Regular'), url(../fonts/work-sans.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+* {
+    font-family: 'Work Sans', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    background: #F2F3F8 !important;
+    font-size: 16px;
+}
+
+footer {
+    background-color: #313133;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    margin-top: 80px;
+    padding: 45px;
+    text-align: center;
+    color: white;
+}
+
+a {
+    text-decoration: none !important;
+    /*color: #464742;*/
+}
+
+h1, h2, h3 {
+    /*color: #464742;*/
+    font-size: 16px;
+}
+a:focus, button:focus {
+    outline: 0 !important;
+}
+
+.wrapper {
+    padding-bottom:20px;
+}
+
+div.un-logged {
+    padding: 3px 10px;
+    font-size: 16px;
+    float: right;
+}
+.hr-header {
+    margin: 10px 0 20px 0;
+}
+.danero-nav {
+    /*box-shadow: 0 0 8px 0 rgba(0,0,0,0.2),*/
+                /*inset 0 0 1px 0 rgba(255,255,255,1);*/
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    background-color: #55acee;
+    position: relative;
+    width: 100%;
+}
+
+.danero-nav a {
+    color: white;
+}
+
+.danero-box {
+    background: white;
+    padding: 30px 15px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.2),   inset 0 0 1px 0 rgba(255,255,255,1);
+    margin:  20px auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.btn {
+    font-size: 14px;
+}
+
+/* Responsive */
+@media screen and (max-width: 540px) {
+    header.un-logged {
+        float:left;
+        text-align: center;
+        width: 100%;
+        padding-bottom: 15px;
+    }
+}
+
+/* Custom Bootstrap
+ */
+.form-group label {
+    font-weight: normal;
+    font-size: 14px !important;
+}
+.alert {
+    padding: 6px !important;
+    font-size: 13px;
+    margin: 0 0 10px 0!important;
+    text-align: center;
+}
+.fa-sm {
+    font-size: 9px;
+    vertical-align: middle;
+}
+.form-control {
+    border-radius: 0;
+}
+.has-error input {
+    border: 1px solid #a94442 !important;
+}
+.has-error label {
+    color: #a94442;
+}
+
+/* Customize Select2
+ */
+.select2-container--default .select2-selection--single {
+    padding: 3px;
+    height: 37px;
+    font-size: 14px;
+    position: relative;
+}
+
+.has-error .select2-selection {
+    border: 1px solid #a94442;
+    border-radius: 4px;
+}
