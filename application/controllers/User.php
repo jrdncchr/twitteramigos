@@ -15,7 +15,8 @@ class User extends MY_Controller {
             echo json_encode($result);
 
         } else {
-
+            $this->load->model("twitter_model");
+            $this->data['twitter_auth_url'] = $this->twitter_model->get_twitter_auth_url();
             $this->_render('user/sign_up');
 
         }

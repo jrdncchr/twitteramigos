@@ -1,4 +1,4 @@
-<div class="col-md-4 col-md-offset-4">
+<div class="col-md-4 col-md-offset-2">
     <div id="sign_up_form" class="danero-box">
         <h2 class="text-center">Sign Up</h2>
         <hr />
@@ -21,6 +21,18 @@
         </div>
         <button id="sign_up_btn" class="btn btn-default btn-sm pull-right">Sign Up</button>
         <br />
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="danero-box text-center">
+        <i class="fa fa-twitter fa-4x"></i>
+        <br />
+        <h3>Sign in using your Twitter Account</h3>
+        <br />
+        <a href="<?php echo $twitter_auth_url; ?>" class="btn btn-twitter">
+            <i class="fa fa-twitter"></i> Sign in with twitter
+        </a>
+
     </div>
 </div>
 

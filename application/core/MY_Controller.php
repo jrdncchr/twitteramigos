@@ -19,9 +19,10 @@ class MY_Controller extends CI_Controller {
     public function __construct($logged = false) {
         parent::__construct();
         $this->request_method = $_SERVER['REQUEST_METHOD'];
-
         $this->load->helper(array('url'));
         $this->load->library('session');
+
+        $this->_loadConstants();
 
         $this->data['site_title'] = $this->title;
         $this->data['site_description'] = $this->description;
@@ -41,6 +42,18 @@ class MY_Controller extends CI_Controller {
         $data['content'] = $this->load->view($view, $data, true);
 
         $this->load->view('templates/skeleton', $data);
+    }
+
+    public function _loadConstants() {
+        $this->session->unset_userdata('constants_loaded');
+        $constants_loaded = $this->session->userdata('constants_loaded');
+        if(!$constants_loaded) {
+            $this->load->model("api_model");
+            $this->api_model->load_constants();
+            $this->session->set_userdata('constants_loaded', true);
+        }
+
+
     }
 
 } 

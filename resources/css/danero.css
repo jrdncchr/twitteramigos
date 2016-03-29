@@ -138,3 +138,18 @@ div.un-logged {
     border: 1px solid #a94442;
     border-radius: 4px;
 }
+
+/* Twitter button */
+.btn-twitter {
+    background-color: #55acee;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+.btn-social {
+    overflow: hidden;
+    padding-left: 44px;
+    position: relative;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
