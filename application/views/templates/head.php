@@ -9,12 +9,23 @@
 <link rel="stylesheet" href="<?php echo base_url() . 'bower_components/select2/dist/css/select2.min.css'; ?>" />
 <link rel="stylesheet" href="<?php echo base_url() . 'bower_components/bootstrap/dist/css/bootstrap.min.css'; ?>" />
 <link rel="stylesheet" href="<?php echo base_url() . 'bower_components/font-awesome/css/font-awesome.min.css'; ?>" />
+<link rel="stylesheet" href="<?php echo base_url() . 'bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'; ?>" />
+<link rel="stylesheet" href="<?php echo base_url() . 'bower_components/toastr/toastr.min.css'; ?>" />
 <link rel="stylesheet" href="<?php echo base_url() . 'resources/css/html5-css-reset.css'; ?>" />
 <link rel="stylesheet" href="<?php echo base_url() . 'resources/css/danero.css'; ?>" />
 
+<?php if(sizeof($css) > 0) {
+    foreach ($css as $c) {?>
+        <link rel="stylesheet" href="<?php echo base_url() . 'resources/css/' . $c; ?>"/>
+    <?php }
+} ?>
+
 <!-- Scripts -->
 <script src="<?php echo base_url() . 'bower_components/jquery/dist/jquery.min.js'; ?>"></script>
+<script src="<?php echo base_url() . 'bower_components/datatables.net/js/jquery.dataTables.min.js'; ?>"></script>
+<script src="<?php echo base_url() . 'bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url() . 'bower_components/bootstrap/dist/js/bootstrap.min.js'; ?>"></script>
+<script src="<?php echo base_url() . 'bower_components/toastr/toastr.min.js'; ?>"></script>
 <script src="<?php echo base_url() . 'bower_components/select2/dist/js/select2.min.js'; ?>"></script>
 <script src="<?php echo base_url() . 'resources/js/danero.js'; ?>"></script>
 <script src="<?php echo base_url() . 'resources/js/danero-validator.js'; ?>"></script>

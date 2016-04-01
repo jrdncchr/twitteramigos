@@ -2,28 +2,33 @@
 
 class User extends MY_Controller {
 
-    public function index() {
-
+    public function __construct() {
+        parent::__construct();
+        $this->load->model("user_model");
     }
 
-    public function sign_up() {
-        if($this->request_method == "POST") {
+    public function action() {
+        $result = array('success' => false);
 
-            $user_info = $this->input->post();
-            $this->load->model('user_model');
-            $result = $this->user_model->add_user($user_info);
-            echo json_encode($result);
+        $action = $this->input->post("action");
+        switch($action) {
 
-        } else {
-            $this->load->model("twitter_model");
-            $this->data['twitter_auth_url'] = $this->twitter_model->get_twitter_auth_url();
-            $this->_render('user/sign_up');
+            case 'list' :
+                $user_id = $this->user ? $this->user['user']->id : 0;
+                $public_only = $this->input->post('public_only');
+                $list = $this->user_model->get_users($public_only, $user_id);
+                $result = array('data' => $list);
+                break;
 
+            case 'update' :
+                $result = $this->user_model->update_user($this->user['user']->id, $this->input->post("user"));
+                break;
+
+            default:
+                $result['message'] = "Action not found.";
         }
-    }
 
-    public function login() {
-        $this->_render('user/login');
+        echo json_encode($result);
     }
 
 } 

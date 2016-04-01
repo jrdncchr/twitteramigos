@@ -36,6 +36,11 @@ footer {
     color: white;
 }
 
+footer a {
+    color: #55acee;
+    font-size: 14px;
+}
+
 a {
     text-decoration: none !important;
     /*color: #464742;*/
@@ -69,6 +74,10 @@ div.un-logged {
     background-color: #55acee;
     position: relative;
     width: 100%;
+}
+
+.danero-sidenav {
+    border-radius: 0 !important;
 }
 
 .danero-nav a {
@@ -153,3 +162,22 @@ div.un-logged {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* dataTables CSS modification */
+.dataTables_length, .dataTables_filter, .dataTables_info {
+    font-size: 12px;
+}
+
+.dataTables_paginate {
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 1px 5px;
+}
+
+.dataTable tr {
+    text-align: center;
+}
+
+
+

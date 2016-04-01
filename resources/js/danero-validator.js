@@ -72,15 +72,21 @@ var Validator = function() {
 
     this.displayAlertError = function(form, show, message) {
         if(show) {
-            form.find('.notice').addClass('alert alert-danger').html("<i class='fa fa-exclamation-circle'></i> " + message);
+            form.find('.notice').addClass('alert alert-danger').html("<i class='fa fa-exclamation-circle'></i> " + message).show();
         } else {
-            form.find('.notice').removeClass('alert alert-danger').html("");
+            form.find('.notice').removeClass('alert alert-danger').html("").hide();
         }
     };
 
     this.validateEmail = function(email) {
         var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
+    };
+
+    this.clearForm = function(form) {
+        form.find('input, select, textarea').each(function() {
+            $(this).val("");
+        });
     };
 
     this.refreshInputErrors = function() {

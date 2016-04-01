@@ -15,12 +15,12 @@ class Twitter_Model extends CI_Model {
         return $result;
     }
 
-    public function get_twitter_auth_url() {
-        $oauth_token = $this->generate_twitter_oauth_token();
+    public function get_twitter_auth_url($redirect = "main") {
+        $oauth_token = $this->generate_twitter_oauth_token($redirect);
         return "https://api.twitter.com/oauth/authorize?oauth_token=$oauth_token";
     }
 
-    public function generate_twitter_oauth_token() {
+    public function generate_twitter_oauth_token($redirect) {
         function buildBaseString($baseURI, $params){
             $r = array();
             ksort($params);
@@ -66,7 +66,7 @@ class Twitter_Model extends CI_Model {
 
         $nonce = time();
         $timestamp = time();
-        $oauth = array('oauth_callback' => 'http://localhost/twitteramigos/twitter/callback',
+        $oauth = array('oauth_callback' => 'http://[::1]/twitteramigos/twitter/callback/' . $redirect,
             'oauth_consumer_key' => TWITTER_CONSUMER_KEY,
             'oauth_nonce' => $nonce,
             'oauth_signature_method' => 'HMAC-SHA1',

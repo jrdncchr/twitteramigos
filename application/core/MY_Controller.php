@@ -24,14 +24,19 @@ class MY_Controller extends CI_Controller {
 
         $this->_loadConstants();
 
+        $user = $this->session->userdata("user");
+        if(null != $user) {
+            $this->user = $user;
+        }
+
         $this->data['site_title'] = $this->title;
         $this->data['site_description'] = $this->description;
         $this->data['site_keywords'] = $this->keywords;
         $this->data['site_author'] = $this->author;
+        $this->data['user'] = $user;
     }
 
-    public function _render($view)
-    {
+    public function _render($view) {
         $this->data['css'] = $this->css;
         $this->data['js'] = $this->js;
         $this->data['bower'] = $this->bower;
@@ -42,6 +47,20 @@ class MY_Controller extends CI_Controller {
         $data['content'] = $this->load->view($view, $data, true);
 
         $this->load->view('templates/skeleton', $data);
+    }
+
+    public function _renderA($view) {
+        $this->data['css'] = $this->css;
+        $this->data['js'] = $this->js;
+        $this->data['bower'] = $this->bower;
+
+        $data['head'] = $this->load->view('templates/head', $this->data, true);
+        $data['nav'] = $this->load->view('templates/nav', $this->data, true);
+        $data['sidenav'] = $this->load->view('templates/admin/sidenav', $this->data, true);
+        $data['footer'] = $this->load->view('templates/footer', $this->data, true);
+        $data['content'] = $this->load->view($view, $data, true);
+
+        $this->load->view('templates/admin/skeleton', $data);
     }
 
     public function _loadConstants() {
