@@ -6,10 +6,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 | Twitter Amigos Constants
 */
+
+//defined('DB_NAME')  OR define('DB_NAME', 'twittera_db');
+//defined('DB_USER')  OR define('DB_USER', 'twittera_jordan');
+//defined('DB_PASS')  OR define('DB_PASS', 'tamigos143');
+
 defined('DB_NAME')  OR define('DB_NAME', 'jrdncchr_twitteramigos');
 defined('DB_USER')  OR define('DB_USER', 'jrdncchr_danero');
 defined('DB_PASS')  OR define('DB_PASS', 'danero1120');
-
+//defined('LIVE_BASE')  OR define('LIVE_BASE', 'http://[::1]/twitteramigos');
+//defined('LIVE_BASE')  OR define('LIVE_BASE', 'http://twitteramigos.danero.net');
+defined('LIVE_BASE')  OR define('LIVE_BASE', 'http://www.twitteramigos.com');
 
 /*
 |--------------------------------------------------------------------------

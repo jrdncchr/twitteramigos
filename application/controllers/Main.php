@@ -12,7 +12,14 @@ class Main extends MY_Controller {
         if(null == $this->user) {
             $this->load->model("twitter_model");
             $this->data['twitter_auth_url'] = $this->twitter_model->get_twitter_auth_url();
+        } else {
+            $new_user = $this->session->userdata('new_user');
+            if(null != $new_user) {
+                $this->data['new_user'] = true;
+                $this->session->unset_userdata('new_user');
+            }
         }
+
 		$this->_render('main');
 	}
 
@@ -39,6 +46,24 @@ class Main extends MY_Controller {
         } else {
             $_SESSION['error'] = $result['message'];
             $this->admin();
+        }
+    }
+
+    public function send_email() {
+        $this->load->model('email_model');
+        $this->email_model->send_email($this->user['user']);
+    }
+
+    public function delete_sessions() {
+        $files = glob(APPPATH . 'session/*');
+        if(!is_dir(APPPATH . 'session')) {
+            exit('Wrong Path');
+        } else {
+            foreach($files as $file) {
+                if(is_file($file))
+                    unlink($file);
+            }
+            exit('Sessions deleted!');
         }
     }
 

@@ -66,7 +66,7 @@ class Twitter_Model extends CI_Model {
 
         $nonce = time();
         $timestamp = time();
-        $oauth = array('oauth_callback' => 'http://[::1]/twitteramigos/twitter/callback/' . $redirect,
+        $oauth = array('oauth_callback' => LIVE_BASE . '/twitter/callback/' . $redirect,
             'oauth_consumer_key' => TWITTER_CONSUMER_KEY,
             'oauth_nonce' => $nonce,
             'oauth_signature_method' => 'HMAC-SHA1',

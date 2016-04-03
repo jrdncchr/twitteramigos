@@ -8,7 +8,7 @@ class Email_Model extends CI_Model {
         $this->load->database();
     }
 
-    public function send_email($follower, $followed = "danero.jrc@gmail.com") {
+    public function send_email($follower, $followed = "cacherojordan@gmail.com") {
 
         $from = 'contact@twitteramigos.com';
 

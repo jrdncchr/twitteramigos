@@ -53,6 +53,10 @@ class Twitter extends MY_Controller {
             'access_token' => $user_info['twitter_access_token']
         );
 
+        if($result['new'] && $method == "") {
+            $this->session->set_userdata('new_user', true);
+        }
+
         $this->session->set_userdata('user', $user);
 
         $redirect = $value != "" ? $controller . "/" . $method . "/" . $value :
@@ -67,23 +71,46 @@ class Twitter extends MY_Controller {
             $auth_url = $this->twitter_model->get_twitter_auth_url("twitter/follow/$id");
             redirect($auth_url);
         } else {
-            $twitter_access_token = $this->user['access_token'];
-            $access_token = json_decode($twitter_access_token);
-            try {
-                $connection = new \Abraham\TwitterOAuth\TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $access_token->oauth_token, $access_token->oauth_token_secret);
-                $follow = $connection->post("friendships/create", ["screen_name" => $id, "follow" => true]);
-            } catch(Exception $e) {
-                $this->data['error']  = $e->getMessage();
-                $this->_render('error');
-                return false;
-            }
+            if($this->user['user']->twitter_id != $id) {
+                $twitter_access_token = $this->user['access_token'];
+                $access_token = json_decode($twitter_access_token);
 
-            if($follow->following == true) {
-                $_SESSION['notice'] = 'You are now following <a target="_blank" href="https://www.twitter.com/' . $follow->screen_name . '">' . $follow->screen_name . '</a>';
+                try {
+                    $connection = new \Abraham\TwitterOAuth\TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $access_token->oauth_token, $access_token->oauth_token_secret);
+                    $follow = $connection->post("friendships/create", ["id" => $id, "follow" => true]);
+                } catch(Exception $e) {
+                    $this->data['error'] = $e->getMessage();
+                    $this->_render('error');
+                    return false;
+                }
+
+                if($follow->following == true) {
+                    $follow_info = array('follower_id' => $this->user['user']->twitter_id, 'followed_id' => $id);
+                    $this->load->model('follow_model');
+                    $result = $this->follow_model->add_follow($follow_info);
+                    if($result['success']) {
+                        $this->load->model('user_model');
+                        $followed = $this->user_model->get_user_where(array('twitter_id' => $id));
+                        if($followed->email_notification) {
+                            $this->load->model('email_model');
+                            $this->email_model->send_email($this->user['user'], $followed->email);
+                        }
+
+                        $_SESSION['notice'] = 'You are now following <a target="_blank" href="https://www.twitter.com/' . $followed->name . '">' . $followed->name . '</a>';
+                        redirect("main");
+                    }
+                }
+            } else {
+                $_SESSION['notice'] = "You are now logged in, you can't follow your own account.";
                 redirect("main");
             }
+
          }
         return true;
+    }
+
+    public function follow_back($follower_id, $followed_id, $follow_back_key) {
+        echo "Follow back feature not yet implemented.";
     }
 
 

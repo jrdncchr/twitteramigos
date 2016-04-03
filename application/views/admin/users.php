@@ -103,6 +103,7 @@
 
 <script>
     var actionUrl = "<?php echo base_url() . 'admin/action'; ?>";
+    var usersDt;
 
     $(function() {
         $('#admin-nav-users').addClass('active');
@@ -153,6 +154,7 @@
                                 toastr.success("Adding user successful!");
                                 $('#add-user-modal').modal('hide');
                                 validator.clearForm($('#add-user-modal'));
+                                usersDt.fnReloadAjax();
                             } else {
                                 validator.displayAlertError($("#add-user-modal"), true, data.message);
                                 validator.displayInputError($("#user-screen-name"), true);
@@ -168,9 +170,9 @@
             }
         });
 
-        $("#usersDt").dataTable({
+        usersDt = $("#usersDt").dataTable({
             sorting: [4],
-            destroy: true,
+            bDestroy: true,
             ajax: {
                 "type"  : "POST",
                 "url"   : actionUrl,

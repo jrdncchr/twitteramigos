@@ -14,9 +14,11 @@ class User extends MY_Controller {
         switch($action) {
 
             case 'list' :
-                $user_id = $this->user ? $this->user['user']->id : 0;
-                $public_only = $this->input->post('public_only');
-                $list = $this->user_model->get_users($public_only, $user_id);
+                if(null == $this->user) {
+                    $list = $this->user_model->get_users(true);
+                } else {
+                    $list = $this->user_model->get_users_list($this->user['user']->twitter_id, $this->input->post('type'));
+                }
                 $result = array('data' => $list);
                 break;
 

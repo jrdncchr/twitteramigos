@@ -27,6 +27,7 @@
 <script src="<?php echo base_url() . 'bower_components/bootstrap/dist/js/bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url() . 'bower_components/toastr/toastr.min.js'; ?>"></script>
 <script src="<?php echo base_url() . 'bower_components/select2/dist/js/select2.min.js'; ?>"></script>
+<script src="<?php echo base_url() . 'resources/js/fnReloadAjax.js'; ?>"></script>
 <script src="<?php echo base_url() . 'resources/js/danero.js'; ?>"></script>
 <script src="<?php echo base_url() . 'resources/js/danero-validator.js'; ?>"></script>
 <script>

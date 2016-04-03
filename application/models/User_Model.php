@@ -24,6 +24,14 @@ class User_Model extends CI_Model {
         return null;
     }
 
+    public function get_user_where($where) {
+        $result = $this->db->get_where($this->user_table, $where);
+        if($result->num_rows() > 0) {
+            return $result->row();
+        }
+        return null;
+    }
+
     public function add_user(array $user_info) {
 
         /* Validate using the rules */
@@ -53,12 +61,13 @@ class User_Model extends CI_Model {
                         $this->db->trans_rollback();
                     } else {
                         $this->db->trans_commit();
-                        return array('success' => true);
+                        $result = $this->db->get_where($this->user_table, array('twitter_id' => $user_info['twitter_id']));
+                        return array('success' => true, 'user' => $result->row(), 'new' => true);
                     }
                 }
             }
         } else {
-            return array('success' => true, 'user' => $result->row());
+            return array('success' => true, 'user' => $result->row(), 'new' => false);
         }
 
         return array('success' => true);
@@ -105,6 +114,27 @@ class User_Model extends CI_Model {
         return $result->result();
     }
 
+    public function get_users_list($twitter_id, $type = "main") {
+        $list = [];
+        if($type == "main") {
+            $result = $this->db->query("call getUsersListMain($twitter_id)");
+            $list = $result->result();
+        } else if($type == "following") {
+            $result = $this->db->query("call getUsersListFollowing($twitter_id)");
+            foreach($result->result() as $row) {
+                $row->time = $this->secondsToTime($row->following_seconds);
+                $list[] = $row;
+            }
+        } else if($type == "followed_back") {
+            $result = $this->db->query("call getUsersListFollowedBack($twitter_id)");
+            foreach($result->result() as $row) {
+                $row->time = $this->secondsToTime($row->followed_back_seconds);
+                $list[] = $row;
+            }
+        }
+        return $list;
+    }
+
     public function get_twitter_id($screen_name) {
         $url = 'https://tweeterid.com/ajax.php';
         $fields = array(
@@ -125,6 +155,33 @@ class User_Model extends CI_Model {
 
         curl_close($ch);
         return $result[0];
+    }
+
+    function secondsToTime($seconds) {
+        $dtF = new DateTime("@0");
+        $dtT = new DateTime("@$seconds");
+        $years = (int) $dtF->diff($dtT)->format('%y');
+        $months = (int) $dtF->diff($dtT)->format('%m');
+        $days = (int) $dtF->diff($dtT)->format('%a');
+        $hours = (int) $dtF->diff($dtT)->format('%h');
+        $minutes = (int) $dtF->diff($dtT)->format('%i');
+        $seconds = (int) $dtF->diff($dtT)->format('%s');
+        if($years > 0) {
+            return $years > 1 ? $years . " years" : $years . " year";
+        }
+        if($months > 0) {
+            return $months > 1 ? $months . " months" : $months . " month";
+        }
+        if($days > 0) {
+            return $days > 1 ? $days . " days" : $days . " day";
+        }
+        if($hours > 0) {
+            return $hours > 1 ? $hours . " hours" : $hours . " hour";
+        }
+        if($minutes > 0) {
+            return $minutes > 1 ? $minutes . " minutes" : $minutes . " minute";
+        }
+        return $seconds . " seconds";
     }
 
 } 

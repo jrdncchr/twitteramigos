@@ -17,15 +17,17 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#users" aria-controls="home" role="tab" data-toggle="tab">Users</a></li>
+            <?php if(null != $user) { ?>
             <li role="presentation"><a href="#following" aria-controls="profile" role="tab" data-toggle="tab">Following</a></li>
             <li role="presentation"><a href="#followedBack" aria-controls="messages" role="tab" data-toggle="tab">Followed Back</a></li>
+            <?php } ?>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content" style="margin-top: 20px;">
             <div role="tabpanel" class="tab-pane active" id="users">
                 <div class="alert alert-info"><i class="fa fa-star"></i> Profiles that you'll follow will receive an email notification, containing a follow back link to your profile.</div>
-                <table id="usersDt" class="table table-hover text-center">
+                <table id="mainDt" class="table table-hover text-center" width="100%">
                     <thead>
                     <tr>
                         <th></th>
@@ -36,8 +38,34 @@
                     </tbody>
                 </table>
             </div>
-            <div role="tabpanel" class="tab-pane" id="following">...</div>
-            <div role="tabpanel" class="tab-pane" id="followedBack">...</div>
+            <?php if(null != $user) { ?>
+            <div role="tabpanel" class="tab-pane" id="following">
+                <div class="alert alert-info"><i class="fa fa-star"></i> List of users you've followed and the time interval you followed them up to date.</div>
+                <table id="followingDt" class="table table-hover text-center" width="100%">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="followedBack">
+                <div class="alert alert-info"><i class="fa fa-star"></i> List of users followed you back and the time interval they followed you up to date.</div>
+                <table id="followedBackDt" class="table table-hover text-center" width="100%">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <?php } ?>
         </div>
 
     </div>
@@ -129,7 +157,7 @@
                         <div class="col-xs-6">
                             <div class="checkbox">
                                 <label style="font-size: 14px;">
-                                    <input id="showProfile" type="checkbox" <?php echo isset($user) ? ($user['user']->email_notification ? "checked" : "") : "" ?> /> Show your profile in the our list of users.
+                                    <input id="showProfile" type="checkbox" <?php echo isset($user) ? ($user['user']->show_profile ? "checked" : "") : "" ?> /> Show your profile in the our list of users.
                                 </label>
                             </div>
                         </div>
@@ -147,33 +175,11 @@
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
     var userActionUrl = "<?php echo base_url() . 'user/action'; ?>";
+    var userId = "<?php echo isset($user) ? $user['user']->id : 0; ?>";
+    var newUser = "<?php echo isset($new_user) ? 1 : 0 ?>";
 
     $(function() {
-        $("#usersDt").dataTable({
-            info: false,
-            filter: false,
-            sort: false,
-            lengthChange: false,
-            destroy: true,
-            ajax: {
-                "type"  : "POST",
-                "url"   : userActionUrl,
-                "data"  : { action: "list", public_only: true }
-            },
-            columns: [
-                {data: "name", className: "screen-name",
-                    render: function(data, type, row) {
-                        return "<a class='screen-name' href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
-                    }
-                },
-                {data: "twitter_id", className: "follow",
-                    render: function(data, type, row) {
-                        return "<a href='" + baseUrl + "/twitter/follow/" + row.name + "' class='btn-follow btn btn-twitter btn-xs'><i class='fa fa-twitter'></i> Follow</a>";
-                    }
-                },
-                {data: "id", visible: false}
-            ]
-        });
+        activateDataTables();
 
         $("#saveProfileBtn").on("click", function() {
             var email = $("#email").val();
@@ -206,9 +212,97 @@
                     } else {
                         $("#emailDiv").html("<p class='text-danger' style='font-size: 13px;'>You have not setup your email.</p>");
                     }
+                    $("#settingsModal").modal("hide");
                 }
 
             }, 'json');
         });
+        if(newUser > 0) {
+            $("#settingsModal").modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
     });
+
+    function activateDataTables() {
+        $("#mainDt").dataTable({
+            autoWidth: false,
+            info: false,
+            filter: false,
+            sort: false,
+            lengthChange: false,
+            destroy: true,
+            ajax: {
+                "type"  : "POST",
+                "url"   : userActionUrl,
+                "data"  : { action: "list", type: "main" }
+            },
+            columns: [
+                {data: "name", width: "50%", render: function(data, type, row) {
+                        return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                    }
+                },
+                {data: "twitter_id", width: "50%", render: function(data, type, row) {
+                        return "<a href='" + baseUrl + "twitter/follow/" + row.twitter_id + "' class='btn-follow btn btn-twitter btn-xs pull-left'><i class='fa fa-twitter'></i> Follow</a>";
+                    }
+                },
+                {data: "id", visible: false}
+            ]
+        });
+
+        if(userId > 0) {
+            $("#followingDt").dataTable({
+                autoWidth: false,
+                info: false,
+                filter: false,
+                sort: false,
+                lengthChange: false,
+                destroy: true,
+                ajax: {
+                    "type"  : "POST",
+                    "url"   : userActionUrl,
+                    "data"  : { action: "list", type: "following" }
+                },
+                columns: [
+                    {data: "name", width: "50%", render: function(data, type, row) {
+                        return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                    }
+                    },
+                    {data: "time", width: "50%", render: function(data, type, row) {
+                        return "<span style='font-size: 14px;' class='pull-left'>" + data + "</span>";
+                    }
+                    },
+                    {data: "id", visible: false}
+                ]
+            });
+
+            $("#followedBackDt").dataTable({
+                autoWidth: false,
+                info: false,
+                filter: false,
+                sort: false,
+                lengthChange: false,
+                destroy: true,
+                ajax: {
+                    "type"  : "POST",
+                    "url"   : userActionUrl,
+                    "data"  : { action: "list", type: "followed_back" }
+                },
+                columns: [
+                    {data: "name", width: "50%", render: function(data, type, row) {
+                        return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                    }
+                    },
+                    {data: "time", width: "50%", render: function(data, type, row) {
+                        return "<span style='font-size: 14px;' class='pull-left'>" + data + "</span>";
+                    }
+                    },
+                    {data: "id", visible: false}
+                ]
+            });
+        }
+
+    }
 </script>
