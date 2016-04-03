@@ -27,7 +27,7 @@
                             <button class="btn btn-primary btn-sm btn-block" id="show-add-user-form-btn"><i class="fa fa-plus-circle"></i> Add User</button>
                         </div>
                     </div>
-                    <table id="usersDt" class="table table-hover table-bordered">
+                    <table id="usersDt" class="table table-hover table-bordered table-responsive">
                         <thead>
                         <tr>
                             <th><i class="fa fa-twitter"></i></th>

@@ -38,6 +38,11 @@ class Admin extends MY_Controller {
                 $result = $this->admin_model->update_admin($this->data['admin']->id, $this->input->post("admin"));
                 break;
 
+            case 'email_update' :
+                $this->load->model('settings_model');
+                $result = $this->settings_model->update_settings($this->input->post('category'), $this->input->post('settings'));
+                break;
+
             default:
                 $result['message'] = "Action not found.";
         }
@@ -59,6 +64,13 @@ class Admin extends MY_Controller {
 
     public function users() {
         $this->_renderA("admin/users");
+    }
+
+    public function email() {
+        $this->load->model('settings_model');
+        $this->data['email_notification'] = $this->settings_model->get_settings_by_category('email_notification');
+        $this->data['email_contact'] = $this->settings_model->get_settings_by_category('email_contact');
+        $this->_renderA("admin/email");
     }
 
     public function logout() {

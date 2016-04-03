@@ -15,7 +15,7 @@
         </div>
 
         <div id="page-content-wrapper">
-            <section class="container">
+            <section class="container-fluid">
                 <?php echo $content; ?>
             </section>
         </div>
