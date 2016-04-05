@@ -46,7 +46,7 @@ class Follow_Model extends CI_Model {
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
-                return array('success' => true);
+                return array('success' => true, 'follow_back_key' => $follow['follow_back_key']);
             }
         }
 

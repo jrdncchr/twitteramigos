@@ -94,7 +94,7 @@ class Twitter extends MY_Controller {
 
                         if($followed->email_notification) {
                             $this->load->model('email_model');
-                            $this->email_model->send_email_notification($this->user['user'], $followed->email);
+                            $this->email_model->send_email_notification($this->user['user'], $followed, $result['follow_back_key']);
                         }
 
                         $_SESSION['notice'] = 'You are now following <a target="_blank" href="https://www.twitter.com/' . $followed->name . '">' . $followed->name . '</a>';

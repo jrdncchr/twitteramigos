@@ -6,7 +6,7 @@ class Email_Model extends CI_Model {
         $this->load->database();
     }
 
-    public function send_email_notification($follower, $followed_email) {
+    public function send_email_notification($follower, $followed) {
 
         if(!$this->is_localhost()) {
             $CI =& get_instance();
@@ -19,9 +19,10 @@ class Email_Model extends CI_Model {
 
             $subject = "Twitter Amigos - " . $follower->name . " followed you on twitter!";
             $content = $email_notification['body'] . "\r\n\r\n";
-            $content .= "<a href='" . base_url() . "twitter/follow_back/12345/6789/SecretKey'>Follow Back Link</a>";
+            $content .= "<br/><br />
+                        <a href='" . base_url() . "twitter/follow_back/".$follower->id."/".$followed->id."/SecretKey'>Follow Back Link</a>";
 
-            mail($followed_email, $subject, $content, $headers);
+            mail($followed->email, $subject, $content, $headers);
         }
     }
 
