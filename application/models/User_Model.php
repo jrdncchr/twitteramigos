@@ -32,6 +32,14 @@ class User_Model extends CI_Model {
         return null;
     }
 
+    public function get_user_secret($user_id) {
+        $result = $this->db->get_where($this->user_secret_table, array('user_id' => $user_id));
+        if($result->num_rows() > 0) {
+            return $result->row();
+        }
+        return null;
+    }
+
     public function add_user(array $user_info) {
 
         /* Validate using the rules */

@@ -33,6 +33,13 @@ $(function() {
                     $(this).val("");
                 });
         });
+
+    $(document).ajaxStart(function() {
+        $('button').attr('disabled', 'disabled');
+    });
+    $(document).ajaxStop(function() {
+        $('button').removeAttr('disabled');
+    });
 });
 
 function activateTooltips() {

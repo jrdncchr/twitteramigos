@@ -14,7 +14,7 @@
         <a id="admin-nav-email" href="<?php echo base_url() . 'admin/email'; ?>">Email</a>
     </li>
     <li>
-        <a id="admin-nav-advertisement" href="#">Advertisement</a>
+        <a id="admin-nav-ads" href="<?php echo base_url() . 'admin/ads'; ?>">Advertisement</a>
     </li>
     <li>
         <a id="admin-nav-settings" href="<?php echo base_url() . 'admin/settings'; ?>">Settings</a>

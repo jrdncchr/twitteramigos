@@ -43,6 +43,11 @@ class Admin extends MY_Controller {
                 $result = $this->settings_model->update_settings($this->input->post('category'), $this->input->post('settings'));
                 break;
 
+            case 'ads_update' :
+                $this->load->model('settings_model');
+                $result = $this->settings_model->update_settings($this->input->post('category'), $this->input->post('settings'));
+                break;
+
             default:
                 $result['message'] = "Action not found.";
         }
@@ -60,6 +65,12 @@ class Admin extends MY_Controller {
 
     public function settings() {
         $this->_renderA("admin/settings");
+    }
+
+    public function ads() {
+        $this->load->model('settings_model');
+        $this->data['ads'] = $this->settings_model->get_settings_by_category('ads');
+        $this->_renderA("admin/ads");
     }
 
     public function users() {

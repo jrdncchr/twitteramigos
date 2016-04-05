@@ -120,7 +120,11 @@
     <?php } ?>
 
     <div class="danero-box text-center">
-        Advertisement Area
+        <?php echo $ads['right-1']; ?>
+    </div>
+
+    <div class="danero-box text-center">
+        <?php echo $ads['right-2']; ?>
     </div>
 </div>
 

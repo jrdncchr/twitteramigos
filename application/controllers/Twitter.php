@@ -91,9 +91,10 @@ class Twitter extends MY_Controller {
                     if($result['success']) {
                         $this->load->model('user_model');
                         $followed = $this->user_model->get_user_where(array('twitter_id' => $id));
+
                         if($followed->email_notification) {
                             $this->load->model('email_model');
-                            $this->email_model->send_email($this->user['user'], $followed->email);
+                            $this->email_model->send_email_notification($this->user['user'], $followed->email);
                         }
 
                         $_SESSION['notice'] = 'You are now following <a target="_blank" href="https://www.twitter.com/' . $followed->name . '">' . $followed->name . '</a>';
@@ -110,7 +111,48 @@ class Twitter extends MY_Controller {
     }
 
     public function follow_back($follower_id, $followed_id, $follow_back_key) {
-        echo "Follow back feature not yet implemented.";
+        $data = array(
+            'follower_id' => $follower_id,
+            'followed_id' => $followed_id,
+            'follow_back_key' => $follow_back_key
+        );
+        $this->load->model('follow_model');
+        $result = $this->follow_model->follow_back($data);
+
+        if($result['success'] == true) {
+            $this->load->model('user_model');
+
+            $follower = $this->user_model->get_user_where(array('twitter_id' => $follower_id));
+
+            $followed = $this->user_model->get_user_where(array('twitter_id' => $followed_id));
+            $followed_secret = $this->user_model->get_user_secret($followed->id);
+
+            try {
+                $access_token = json_decode($followed_secret->twitter_access_token);
+                $connection = new \Abraham\TwitterOAuth\TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $access_token->oauth_token, $access_token->oauth_token_secret);
+                $twitter_user = $connection->get("users/show", ["user_id" => $access_token->user_id]);
+            } catch(Exception $e) {
+                $this->data['error']  = $e->getMessage();
+                $this->_render('error');
+                return false;
+            }
+
+            if(!isset($twitter_user->errors)) {
+                $user = array(
+                    'user' => $followed,
+                    'twitter' => $twitter_user,
+                    'access_token' => $followed_secret->twitter_access_token
+                );
+                $this->session->set_userdata('user', $user);
+            }
+
+            $_SESSION['notice'] = 'You followed back <a target="_blank" href="https://www.twitter.com/' . $follower->name . '">' . $follower->name . '</a>!';
+        } else {
+            $_SESSION['notice'] = "Incorrect follow back key.";
+        }
+
+        redirect('main');
+        return true;
     }
 
 

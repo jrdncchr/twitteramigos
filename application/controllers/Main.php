@@ -20,6 +20,9 @@ class Main extends MY_Controller {
             }
         }
 
+        $this->load->model('settings_model');
+        $this->data['ads'] = $this->settings_model->get_settings_by_category('ads');
+
 		$this->_render('main');
 	}
 

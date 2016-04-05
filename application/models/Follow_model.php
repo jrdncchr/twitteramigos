@@ -2,14 +2,8 @@
 
 class Follow_Model extends CI_Model {
 
-    protected $follows_table = 'follows';
-    protected $add_rules = [
-        'required'  => [['follower_id']],
-        'email'     => [['email']],
-        'equals'    => [],
-        'lengthMin' => [],
-        'lengthMax' => []
-    ];
+    protected $following_table = 'following';
+    protected $followed_back_table = 'followed_back';
 
     function __construct() {
         $this->load->database();
@@ -23,7 +17,7 @@ class Follow_Model extends CI_Model {
         if($twitter_id > 0) {
             $this->db->where('follower_id', $twitter_id);
         }
-        $result = $this->db->get($this->follows_table);
+        $result = $this->db->get($this->following_table);
         if($result->num_rows() > 0) {
             if($id > 0) {
                 return $result->row();
@@ -36,15 +30,8 @@ class Follow_Model extends CI_Model {
 
     public function add_follow(array $follow) {
 
-        /* Validate using the rules */
-        $v = new Valitron\Validator($follow);
-        $v->rules($this->add_rules);
-        if(!$v->validate()) {
-            return array('success' => false, 'message' => "Please validate your inputs.", 'errors' => $v->errors());
-        }
-
         /* Check if follow already exists */
-        $result = $this->db->get_where($this->follows_table,
+        $result = $this->db->get_where($this->following_table,
             array('follower_id' => $follow['follower_id'], 'followed_id' => $follow['followed_id']));
         if($result->num_rows() > 0) {
             return array('success' => true, 'message' => "Already following.");
@@ -54,7 +41,7 @@ class Follow_Model extends CI_Model {
         $follow['follow_back_key'] = $this->general_functions->generate_random_str(50);
 
         $this->db->trans_start();
-        if($this->db->insert($this->follows_table, $follow)) {
+        if($this->db->insert($this->following_table, $follow)) {
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
             } else {
@@ -68,10 +55,39 @@ class Follow_Model extends CI_Model {
 
     public function update_follow($follow) {
         $result['success'] = false;
-        if($this->db->update($this->follows_table, $follow)) {
+        if($this->db->update($this->following_table, $follow)) {
             $result['success'] = true;
         }
         return $result;
+    }
+
+    public function follow_back($data) {
+        $this->db->trans_start();
+        $result = $this->db->get_where($this->following_table, $data);
+        if($result->num_rows() > 0) {
+            $follow = $result->row();
+
+            $followed_back = array(
+                'followed_back_id' => $data['followed_id'],
+                'followed_id' => $data['follower_id'],
+                'following_id' => $follow->id
+            );
+            if($this->db->insert($this->followed_back_table,$followed_back)) {
+                $following = array(
+                    'follower_id' => $data['followed_id'],
+                    'followed_id' => $data['follower_id']
+                );
+                $this->db->insert($this->following_table, $following);
+
+            }
+        }
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return array('success' => true);
+        }
+        return array('success' => false);
     }
 
 } 
