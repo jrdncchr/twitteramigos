@@ -16,10 +16,10 @@
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Be on the top of the users list again.</p>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Marked as a premium profile, telling other users that you'll follow them back.</p>
         <br />
-        <form action="<?php echo $this->paypal_url; ?>" method="post">
+        <form action="<?php echo $paypal['url']; ?>" method="post">
 
             <!-- Identify your business so that you can collect the payments. -->
-            <input type="hidden" name="business" value="<?php echo $this->paypal_business; ?>">
+            <input type="hidden" name="business" value="<?php echo $paypal['business']; ?>">
 
             <!-- Specify a Buy Now button. -->
             <input type="hidden" name="cmd" value="_xclick">
@@ -32,7 +32,7 @@
 
             <!-- Specify URLs -->
             <input type='hidden' name='cancel_return' value='<?php echo base_url() . 'main'; ?>'>
-            <input type='hidden' name='return' value='<?php echo base_url() . 'success'; ?>'>
+            <input type='hidden' name='return' value='<?php echo base_url() . 'main/premium_success'; ?>'>
 
             <!-- Display the payment button. -->
             <div class="text-center">

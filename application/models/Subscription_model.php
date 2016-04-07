@@ -36,11 +36,12 @@ class Subscription_Model extends CI_Model {
     public function add(array $info) {
         $this->db->trans_start();
 
+        if($info['service'] == "PREMIUM") {
+            $info['expiration_date'] = date("Y-m-d H:i:s", strtotime("+1 month"));;
+        }
+
         $result = $this->db->get_where($this->table, array('user_id' => $info['user_id'], 'service' => $info['service']));
         if($result->num_rows() > 0) {
-            if($info['service'] == "PREMIUM") {
-                $info['expiration_date'] = date("Y-m-d H:i:s", strtotime("+1 month"));;
-            }
             $existing_subscription = $result->row();
             $this->db->where('id', $existing_subscription->id);
             $this->db->update($this->table, $info);

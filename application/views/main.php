@@ -203,15 +203,13 @@
                 <h4 class="modal-title" id="settingsModalLabel"><i class="fa fa-arrow-up"></i> Top</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-info">
-                    <i class="fa fa-smile-o"></i> Put your profile on the top section again by donating $1.
-                    <p></p>
-                    <p class="text-center">Selected Profile: <span id="selected-profile" style="font-weight: bold;"></span></p>
-                </div>
-                <form action="<?php echo $this->paypal_url; ?>" method="post">
+                <p class="text-center">Put your profile on the top section again by donating $1.</p>
+                <p></p>
+                <p class="text-center">Selected Profile: <span id="selected-profile" style="font-weight: bold;"></span></p>
+                <form action="<?php echo $paypal['url']; ?>" method="post" style="margin-top: 10px;">
 
                     <!-- Identify your business so that you can collect the payments. -->
-                    <input type="hidden" name="business" value="<?php echo $this->paypal_business; ?>">
+                    <input type="hidden" name="business" value="<?php echo $paypal['business'] ?>">
 
                     <!-- Specify a Buy Now button. -->
                     <input type="hidden" name="cmd" value="_xclick">

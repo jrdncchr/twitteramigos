@@ -5,8 +5,7 @@ class MY_Controller extends CI_Controller {
     protected $user;
     protected $data;
 
-    protected $paypal_url;
-    protected $paypal_business;
+    protected $paypal;
 
     protected $css;
     protected $js;
@@ -32,12 +31,13 @@ class MY_Controller extends CI_Controller {
             $this->user = $user;
         }
 
+
         if($this->is_localhost()) {
-            $this->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-            $this->paypal_business = "jrdn-sb-business@gmail.com";
+            $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $this->paypal['business'] = "jrdn-sb-business@gmail.com";
         } else {
-            $this->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-            $this->paypal_business = "jrdn-sb-business@gmail.com";
+            $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $this->paypal['business'] = "jrdn-sb-business@gmail.com";
         }
 
         $this->data['site_title'] = $this->title;
@@ -45,6 +45,7 @@ class MY_Controller extends CI_Controller {
         $this->data['site_keywords'] = $this->keywords;
         $this->data['site_author'] = $this->author;
         $this->data['user'] = $user;
+        $this->data['paypal'] = $this->paypal;
     }
 
     public function _render($view) {
