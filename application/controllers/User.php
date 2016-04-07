@@ -15,7 +15,11 @@ class User extends MY_Controller {
 
             case 'list' :
                 if(null == $this->user) {
-                    $list = $this->user_model->get_users(true);
+                    if($this->input->post('type') == "premium") {
+                        $list = $this->user_model->get_users_list(null, "premium");
+                    } else {
+                        $list = $this->user_model->get_users_list();
+                    }
                 } else {
                     $list = $this->user_model->get_users_list($this->user['user']->twitter_id, $this->input->post('type'));
                 }

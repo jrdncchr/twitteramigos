@@ -1,5 +1,5 @@
 <section class="danero-nav">
-    <div class="container" style="padding: 15px 0">
+    <div class="container-fluid" style="padding: 15px 40px">
         <div class="row">
             <div class="col-md-6">
                 <h2 style="font-weight: bold;">

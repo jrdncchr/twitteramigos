@@ -7,7 +7,7 @@
         padding-left: 30px !important;
     }
 </style>
-<div class="col-md-8">
+<div class="col-md-5">
     <div class="danero-box">
         <?php if(isset($_SESSION['notice'])) { ?>
             <div class="alert alert-success"><i class='fa fa-check'></i> <?php echo $_SESSION['notice']; ?></div>
@@ -26,7 +26,7 @@
         <!-- Tab panes -->
         <div class="tab-content" style="margin-top: 20px;">
             <div role="tabpanel" class="tab-pane active" id="users">
-                <div class="alert alert-info"><i class="fa fa-star"></i> Profiles that you'll follow will receive an email notification, containing a follow back link to your profile.</div>
+                <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> Profiles that you'll follow will receive an email notification, containing a follow back link to your profile.</div>
                 <table id="mainDt" class="table table-hover text-center" width="100%">
                     <thead>
                     <tr>
@@ -40,7 +40,7 @@
             </div>
             <?php if(null != $user) { ?>
             <div role="tabpanel" class="tab-pane" id="following">
-                <div class="alert alert-info"><i class="fa fa-star"></i> List of users you've followed and the time interval you followed them up to date.</div>
+                <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> List of users you've followed and the time interval you followed them up to date.</div>
                 <table id="followingDt" class="table table-hover text-center" width="100%">
                     <thead>
                     <tr>
@@ -53,7 +53,7 @@
                 </table>
             </div>
             <div role="tabpanel" class="tab-pane" id="followedBack">
-                <div class="alert alert-info"><i class="fa fa-star"></i> List of users followed you back and the time interval they followed you up to date.</div>
+                <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> List of users followed you back and the time interval they followed you up to date.</div>
                 <table id="followedBackDt" class="table table-hover text-center" width="100%">
                     <thead>
                     <tr>
@@ -71,6 +71,23 @@
     </div>
 </div>
 <div class="col-md-4">
+  <div class="danero-box" style="padding-top: 40px;">
+      <h2>Premium <a href="<?php echo base_url() . 'main/subscribe_premium'; ?>" class="btn btn-xs btn-primary pull-right"><i class="fa fa-rocket"></i> Subscribe as Premium</a></h2>
+      <hr />
+      <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> Premium profiles are listed here, they will follow you back for sure, so make sure to follow them now.</div>
+      <table id="premiumDt" class="table table-hover text-center" width="100%">
+          <thead>
+          <tr>
+              <th></th>
+              <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+  </div>
+</div>
+<div class="col-md-3">
     <?php if(null == $user) { ?>
         <div class="danero-box text-center">
                 <i class="fa fa-twitter fa-4x"></i>
@@ -126,16 +143,16 @@
     <div class="danero-box text-center">
         <?php echo $ads['right-2']; ?>
     </div>
-</div>
+
 
 
 <!-- Settings Modal -->
-<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
-    <div class="modal-dialog bs-example-modal-sm" role="document">
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="topModalLabel">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="settingsModalLabel">Settings</h4>
+                <h4 class="modal-title" id="topModalLabel">Settings</h4>
             </div>
             <div class="modal-body">
                 <div class="notice"></div>
@@ -175,6 +192,58 @@
         </div>
     </div>
 </div>
+
+
+<!-- Top Modal -->
+<div class="modal fade" id="topModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="settingsModalLabel"><i class="fa fa-arrow-up"></i> Top</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="fa fa-smile-o"></i> Put your profile on the top section again by donating $1.
+                    <p></p>
+                    <p class="text-center">Selected Profile: <span id="selected-profile" style="font-weight: bold;"></span></p>
+                </div>
+                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+
+                    <!-- Identify your business so that you can collect the payments. -->
+                    <input type="hidden" name="business" value="jrdn-sb-business@gmail.com">
+
+                    <!-- Specify a Buy Now button. -->
+                    <input type="hidden" name="cmd" value="_xclick">
+
+                    <!-- Specify details about the item that buyers will purchase. -->
+                    <input type="hidden" name="item_name" value="Make Profile Top" id="top_item_name">
+                    <input type="hidden" name="item_number" id="top_item_number" />
+                    <input type="hidden" name="custom" id="CacheroJordan" />
+                    <input type="hidden" name="amount" value="1">
+                    <input type="hidden" name="currency_code" value="USD">
+
+                    <!-- Specify URLs -->
+                    <input type='hidden' name='cancel_return' value='http://127.0.0.1/twitteramigos/main'>
+                    <input type='hidden' name='return' value='http://127.0.0.1/twitteramigos/main/top_success'>
+
+                    <!-- Display the payment button. -->
+                    <div class="text-center">
+                        <input type="image" name="submit" border="0"
+                               src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_pponly_142x27.png" alt="PayPal - The safer, easier way to pay online">
+                        <img alt="" border="0" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     var baseUrl = "<?php echo base_url(); ?>";
@@ -237,6 +306,7 @@
             filter: false,
             sort: false,
             lengthChange: false,
+            displayLength: 25,
             destroy: true,
             ajax: {
                 "type"  : "POST",
@@ -245,12 +315,47 @@
             },
             columns: [
                 {data: "name", width: "50%", render: function(data, type, row) {
-                        return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                        return "<a class='pull-right' href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
                     }
                 },
                 {data: "twitter_id", width: "50%", render: function(data, type, row) {
-                        return "<a href='" + baseUrl + "twitter/follow/" + row.twitter_id + "' class='btn-follow btn btn-twitter btn-xs pull-left'><i class='fa fa-twitter'></i> Follow</a>";
+                        var content = "";
+                        if (row.premium == '1') {
+                            content += '<b><i class="fa fa-star text-primary"></i></b>';
+                        }
+                        content += "<a href='" + baseUrl + "twitter/follow/" + row.twitter_id + "' class='btn-follow btn btn-twitter btn-xs pull-left'><i class='fa fa-twitter'></i> Follow</a>";
+                        content += "<button onclick='topEvent(" + row.twitter_id + ", \"" + row.name + "\")' class='btn btn-default btn-xs pull-left' style='margin-left: 10px;'><i class='fa fa-arrow-up fa-sm'></i> Top</button>";
+
+
+                        return content;
                     }
+                },
+                {data: "id", visible: false}
+            ]
+        });
+
+        $("#premiumDt").dataTable({
+            autoWidth: false,
+            info: false,
+            filter: false,
+            sort: false,
+            lengthChange: false,
+            displayLength: 25,
+            destroy: true,
+            ajax: {
+                "type"  : "POST",
+                "url"   : userActionUrl,
+                "data"  : { action: "list", type: "premium" }
+            },
+            columns: [
+                {data: "name", width: "50%", render: function(data, type, row) {
+                    return "<a class='pull-right' href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                }
+                },
+                {data: "twitter_id", width: "50%", render: function(data, type, row) {
+                    return "<a href='" + baseUrl + "twitter/follow/" + row.twitter_id + "' class='btn-follow btn btn-twitter btn-xs pull-left'><i class='fa fa-twitter'></i> Follow</a>";
+
+                }
                 },
                 {data: "id", visible: false}
             ]
@@ -263,6 +368,7 @@
                 filter: false,
                 sort: false,
                 lengthChange: false,
+                displayLength: 25,
                 destroy: true,
                 ajax: {
                     "type"  : "POST",
@@ -288,6 +394,7 @@
                 filter: false,
                 sort: false,
                 lengthChange: false,
+                displayLength: 25,
                 destroy: true,
                 ajax: {
                     "type"  : "POST",
@@ -308,5 +415,12 @@
             });
         }
 
+    }
+
+    function topEvent(id, name) {
+        $('#selected-profile').html(name);
+        $('#top_item_number').val(id);
+        $('#top_item_name').val("Make Profile Top [ " + name + " ]");
+        $('#topModal').modal("show");
     }
 </script>

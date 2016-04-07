@@ -10,7 +10,7 @@
 
     <?php echo $nav ?>
 
-    <section class="container">
+    <section class="container-fluid">
         <?php echo $content; ?>
     </section>
     <div class="push"></div>
