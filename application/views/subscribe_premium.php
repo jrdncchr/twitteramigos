@@ -16,10 +16,10 @@
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Be on the top of the users list again.</p>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Marked as a premium profile, telling other users that you'll follow them back.</p>
         <br />
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        <form action="<?php echo $this->paypal_url; ?>" method="post">
 
             <!-- Identify your business so that you can collect the payments. -->
-            <input type="hidden" name="business" value="jrdn-sb-business@gmail.com">
+            <input type="hidden" name="business" value="<?php echo $this->paypal_business; ?>">
 
             <!-- Specify a Buy Now button. -->
             <input type="hidden" name="cmd" value="_xclick">
@@ -31,8 +31,8 @@
             <input type="hidden" name="currency_code" value="USD">
 
             <!-- Specify URLs -->
-            <input type='hidden' name='cancel_return' value='http://127.0.0.1/twitteramigos/main'>
-            <input type='hidden' name='return' value='http://127.0.0.1/twitteramigos/main/premium_success'>
+            <input type='hidden' name='cancel_return' value='<?php echo base_url() . 'main'; ?>'>
+            <input type='hidden' name='return' value='<?php echo base_url() . 'success'; ?>'>
 
             <!-- Display the payment button. -->
             <div class="text-center">

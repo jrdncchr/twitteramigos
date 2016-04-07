@@ -11,7 +11,7 @@ class Main extends MY_Controller {
 	public function index() {
         if(null == $this->user) {
             $this->load->model("twitter_model");
-//            $this->data['twitter_auth_url'] = $this->twitter_model->get_twitter_auth_url();
+            $this->data['twitter_auth_url'] = $this->twitter_model->get_twitter_auth_url();
         } else {
             $new_user = $this->session->userdata('new_user');
             if(null != $new_user) {

@@ -5,6 +5,9 @@ class MY_Controller extends CI_Controller {
     protected $user;
     protected $data;
 
+    protected $paypal_url;
+    protected $paypal_business;
+
     protected $css;
     protected $js;
     protected $bower;
@@ -27,6 +30,14 @@ class MY_Controller extends CI_Controller {
         $user = $this->session->userdata("user");
         if(null != $user) {
             $this->user = $user;
+        }
+
+        if($this->is_localhost()) {
+            $this->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $this->paypal_business = "jrdn-sb-business@gmail.com";
+        } else {
+            $this->paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $this->paypal_business = "jrdn-sb-business@gmail.com";
         }
 
         $this->data['site_title'] = $this->title;
@@ -71,8 +82,14 @@ class MY_Controller extends CI_Controller {
             $this->api_model->load_constants();
             $this->session->set_userdata('constants_loaded', true);
         }
+    }
 
-
+    public function is_localhost() {
+        $whitelist = array('127.0.0.1', '::1');
+        if( in_array( $_SERVER['REMOTE_ADDR'], $whitelist)) {
+            return true;
+        }
+        return false;
     }
 
 } 
