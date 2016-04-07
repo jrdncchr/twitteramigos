@@ -74,6 +74,16 @@ div.un-logged {
     background-color: #55acee;
     position: relative;
     width: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.danero-nav li:hover {
+    background: #337ab7;
+}
+
+.danero-nav a {
+    color: white !important;
 }
 
 .danero-sidenav {
