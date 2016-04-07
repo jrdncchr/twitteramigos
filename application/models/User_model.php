@@ -118,14 +118,19 @@ class User_Model extends CI_Model {
         if($public_only) {
             $this->db->where('show_profile', 1);
         }
+        $this->db->order_by('date_created', 'desc');
         $result = $this->db->get($this->user_table);
         return $result->result();
     }
 
-    public function get_users_list($twitter_id, $type = "main") {
+    public function get_users_list($twitter_id = null, $type = "main") {
         $list = [];
         if($type == "main") {
-            $result = $this->db->query("call getUsersListMain($twitter_id)");
+            if($twitter_id) {
+                $result = $this->db->query("call getUsersListMain($twitter_id)");
+            } else {
+                $result = $this->db->query("call getUsersListMainAll()");
+            }
             $list = $result->result();
         } else if($type == "following") {
             $result = $this->db->query("call getUsersListFollowing($twitter_id)");
@@ -139,6 +144,13 @@ class User_Model extends CI_Model {
                 $row->time = $this->secondsToTime($row->followed_back_seconds);
                 $list[] = $row;
             }
+        } else if($type == "premium") {
+            if($twitter_id) {
+                $result = $this->db->query("call getUsersListPremium($twitter_id)");
+            } else {
+                $result = $this->db->query("call getUsersListPremiumAll()");
+            }
+            $list = $result->result();
         }
         return $list;
     }
