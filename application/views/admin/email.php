@@ -43,6 +43,21 @@
             <button class="btn btn-xs btn-success" id="save-email-contact-btn">Save Email Contact</button>
         </div>
     </div>
+
+    <div class="col-md-5">
+        <div class="danero-box">
+            <h2>PayPal</h2>
+            <div id="paypal-form" style="margin-top: 10px;">
+                <div class="notice"></div>
+                <div class="form-group">
+                    <label for="paypal-email">* Email (Will receive payments)</label>
+                    <input id="paypal-email" type="text" class="form-control email required"
+                           value="<?php echo $paypal['email']; ?>" />
+                </div>
+            </div>
+            <button class="btn btn-xs btn-success" id="save-paypal-email-btn">Save PayPal Email</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -54,7 +69,7 @@
         $('#save-email-notification-btn').on('click', function() {
             if(validator.validateForm($('#notification-form'))) {
                 var data = {
-                    action : 'email_update',
+                    action : 'settings_update',
                     category : 'email_notification',
                     settings : {
                         from : $('#notification-from').val(),
@@ -77,7 +92,7 @@
         $('#save-email-contact-btn').on('click', function() {
             if(validator.validateForm($('#contact-form'))) {
                 var data = {
-                    action : 'email_update',
+                    action : 'settings_update',
                     category : 'email_contact',
                     settings : {
                         to : $('#contact-to').val()
@@ -87,6 +102,26 @@
                 $.post(actionUrl, data, function(res) {
                     if(res.success == true) {
                         toastr.success("Saving email contact successful!");
+                    } else {
+                        toastr.error("Something went wrong!");
+                    }
+                }, 'json');
+            }
+        });
+
+        $('#save-paypal-email-btn').on('click', function() {
+            if(validator.validateForm($('#paypal-form'))) {
+                var data = {
+                    action : 'settings_update',
+                    category : 'paypal',
+                    settings : {
+                        email : $('#paypal-email').val()
+                    }
+                };
+
+                $.post(actionUrl, data, function(res) {
+                    if(res.success == true) {
+                        toastr.success("Saving paypal successful!");
                     } else {
                         toastr.error("Something went wrong!");
                     }

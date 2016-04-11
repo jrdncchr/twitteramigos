@@ -5,9 +5,6 @@
         </a>
     </li>
     <li>
-        <a id="admin-nav-dashboard" href="<?php echo base_url() . 'admin/dashboard'; ?>">Dashboard</a>
-    </li>
-    <li>
         <a id="admin-nav-users" href="<?php echo base_url() . 'admin/users'; ?>">Users</a>
     </li>
     <li>

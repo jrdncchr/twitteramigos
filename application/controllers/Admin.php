@@ -38,7 +38,7 @@ class Admin extends MY_Controller {
                 $result = $this->admin_model->update_admin($this->data['admin']->id, $this->input->post("admin"));
                 break;
 
-            case 'email_update' :
+            case 'settings_update' :
                 $this->load->model('settings_model');
                 $result = $this->settings_model->update_settings($this->input->post('category'), $this->input->post('settings'));
                 break;
@@ -46,6 +46,11 @@ class Admin extends MY_Controller {
             case 'ads_update' :
                 $this->load->model('settings_model');
                 $result = $this->settings_model->update_settings($this->input->post('category'), $this->input->post('settings'));
+                break;
+
+            case 'subscribe' :
+                $this->load->model('subscription_model');
+                $result = $this->subscription_model->add($this->input->post('subscription'));
                 break;
 
             default:
@@ -56,11 +61,7 @@ class Admin extends MY_Controller {
     }
 
     public function index() {
-        $this->dashboard();
-    }
-
-    public function dashboard() {
-        $this->_renderA("admin/dashboard");
+        $this->users();
     }
 
     public function settings() {
@@ -81,6 +82,7 @@ class Admin extends MY_Controller {
         $this->load->model('settings_model');
         $this->data['email_notification'] = $this->settings_model->get_settings_by_category('email_notification');
         $this->data['email_contact'] = $this->settings_model->get_settings_by_category('email_contact');
+        $this->data['paypal'] = $this->settings_model->get_settings_by_category('paypal');
         $this->_renderA("admin/email");
     }
 

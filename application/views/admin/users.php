@@ -10,40 +10,29 @@
 
 <h2 style="font-weight: bold;">Users</h2>
 <div class="row">
-    <div class="col-md-11">
+    <div class="col-md-12">
         <div class="danero-box" style="margin-right: 20px;">
-
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#users" aria-controls="home" role="tab" data-toggle="tab">Users</a></li>
-                <li role="presentation"><a href="#position" aria-controls="profile" role="tab" data-toggle="tab">Position</a></li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content" style="margin-top: 20px;">
-                <div role="tabpanel" class="tab-pane active" id="users">
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-3 col-md-offset-9">
-                            <button class="btn btn-primary btn-sm btn-block" id="show-add-user-form-btn"><i class="fa fa-plus-circle"></i> Add User</button>
-                        </div>
+            <div role="tabpanel" class="tab-pane active" id="users">
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-3 col-md-offset-9">
+                        <button class="btn btn-primary btn-sm btn-block" id="show-add-user-form-btn"><i class="fa fa-plus-circle"></i> Add User</button>
                     </div>
-                    <table id="usersDt" class="table table-hover table-bordered table-responsive">
-                        <thead>
-                        <tr>
-                            <th><i class="fa fa-twitter"></i></th>
-                            <th>Email</th>
-                            <th>Notification</th>
-                            <th>Show</th>
-                            <th>Date Joined</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="position"></div>
+                <table id="usersDt" class="table table-hover table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Actions</th>
+                        <th><i class="fa fa-twitter"></i></th>
+                        <th>Email</th>
+                        <th>Notification</th>
+                        <th>Show</th>
+                        <th>Date Joined</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
-
         </div>
     </div>
 </div>
@@ -166,7 +155,6 @@
                     }
                 });
 
-
             }
         });
 
@@ -179,6 +167,11 @@
                 "data"  : { action: "user_list", public_only: 0 }
             },
             columns: [
+                {data: "id",
+                    render: function(data, type, row) {
+                        return "<button class='btn btn-xs btn-primary' onclick='subscribe(" + data + ", \"PREMIUM\");'><i class='fa fa-star'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='subscribe(" + data + ", \"TOP\");'><i class='fa fa-arrow-up'></i></button>";
+                    }
+                },
                 {data: "name",
                     render: function(data, type, row) {
                         return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
@@ -195,9 +188,23 @@
                         return data == 1 ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
                     }
                 },
-                {data: "date_created"},
-                {data: "id", visible:false}
+                {data: "date_created"}
             ]
         });
     });
+
+    function subscribe(id, type) {
+        var data = {
+            action : 'subscribe',
+            subscription : {
+                user_id : id,
+                service : type
+            }
+        };
+        $.post(actionUrl, data, function(res) {
+            if(res.success) {
+                toastr.success("Subscribing user successful!");
+            }
+        }, 'json');
+    }
 </script>

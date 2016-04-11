@@ -12,7 +12,6 @@
         <p>Be a premium for a month for only $5, by subscribing you'll have benefits like: </p>
         <br/>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Profile is listed in the premium list.</p>
-        <p class="text-primary"><i class="fa fa-arrow-right"></i> You can filter the users list.</p>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Be on the top of the users list again.</p>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Marked as a premium profile, telling other users that you'll follow them back.</p>
         <br />

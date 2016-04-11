@@ -31,13 +31,14 @@ class MY_Controller extends CI_Controller {
             $this->user = $user;
         }
 
-
+        $this->load->model('settings_model');
+        $paypal = $this->settings_model->get_settings_by_category('paypal');
         if($this->is_localhost()) {
             $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
             $this->paypal['business'] = "jrdn-sb-business@gmail.com";
         } else {
             $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
-            $this->paypal['business'] = "jrdn-sb-business@gmail.com";
+            $this->paypal['business'] = $paypal['email'];
         }
 
         $this->data['site_title'] = $this->title;

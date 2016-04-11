@@ -151,6 +151,14 @@ class User_Model extends CI_Model {
                 $result = $this->db->query("call getUsersListPremiumAll()");
             }
             $list = $result->result();
+        } else if($type == "followers") {
+            if($twitter_id) {
+                $result = $this->db->query("call getUsersListFollowers($twitter_id)");
+                foreach($result->result() as $row) {
+                    $row->time = $this->secondsToTime($row->following_seconds);
+                    $list[] = $row;
+                }
+            }
         }
         return $list;
     }

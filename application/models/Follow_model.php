@@ -28,6 +28,14 @@ class Follow_Model extends CI_Model {
         return null;
     }
 
+    public function get_followers($twitter_id = 0) {
+        if($twitter_id > 0) {
+            $this->db->where('followed_id', $twitter_id);
+        }
+        $result = $this->db->get($this->following_table);
+        return $result->result();
+    }
+
     public function add_follow(array $follow) {
 
         /* Check if follow already exists */

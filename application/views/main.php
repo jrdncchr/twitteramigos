@@ -8,6 +8,10 @@
     }
 </style>
 <div class="col-md-8">
+    <div class="danero-box text-center" style="padding: 10px;">
+        <?php echo $ads['top-1']; ?>
+    </div>
+
     <div class="danero-box">
         <?php if(isset($_SESSION['notice'])) { ?>
             <div class="alert alert-success"><i class='fa fa-check'></i> <?php echo $_SESSION['notice']; ?></div>
@@ -19,6 +23,7 @@
             <li role="presentation" class="active"><a href="#users" aria-controls="home" role="tab" data-toggle="tab">Users</a></li>
             <?php if(null != $user) { ?>
             <li role="presentation"><a href="#following" aria-controls="profile" role="tab" data-toggle="tab">Following</a></li>
+            <li role="presentation"><a href="#followedYou" aria-controls="profile" role="tab" data-toggle="tab">Followed You</a></li>
             <li role="presentation"><a href="#followedBack" aria-controls="messages" role="tab" data-toggle="tab">Followed Back</a></li>
             <?php } ?>
         </ul>
@@ -52,6 +57,19 @@
                     </tbody>
                 </table>
             </div>
+                <div role="tabpanel" class="tab-pane" id="followedYou">
+                    <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> List of users followed you and the time interval they followed you up to date.</div>
+                    <table id="followedYouDt" class="table table-hover text-center" width="100%">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             <div role="tabpanel" class="tab-pane" id="followedBack">
                 <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> List of users followed you back and the time interval they followed you up to date.</div>
                 <table id="followedBackDt" class="table table-hover text-center" width="100%">
@@ -68,6 +86,10 @@
             <?php } ?>
         </div>
 
+    </div>
+
+    <div class="danero-box text-center" style="padding: 10px;">
+        <?php echo $ads['bottom-1']; ?>
     </div>
 </div>
 
@@ -135,11 +157,11 @@
         </table>
     </div>
 
-    <div class="danero-box text-center">
+    <div class="danero-box text-center" style="padding: 10px;">
         <?php echo $ads['right-1']; ?>
     </div>
 
-    <div class="danero-box text-center">
+    <div class="danero-box text-center" style="padding: 10px;">
         <?php echo $ads['right-2']; ?>
     </div>
 </div>
@@ -203,7 +225,7 @@
                 <h4 class="modal-title" id="settingsModalLabel"><i class="fa fa-arrow-up"></i> Top</h4>
             </div>
             <div class="modal-body">
-                <p class="text-enter">Put your profile on the top section again by donating $1.</p>
+                <p class="text-center">Put your profile on the top section again by donating $1.</p>
                 <p></p>
                 <p class="text-center">Selected Profile: <span id="selected-profile" style="font-weight: bold;"></span></p>
                 <form action="<?php echo $paypal['url']; ?>" method="post" style="margin-top: 10px;">
@@ -329,7 +351,10 @@
                     }
                 },
                 {data: "id", visible: false}
-            ]
+            ],
+            "language": {
+                "emptyTable": "You are already following all profiles!"
+            }
         });
 
         $("#premiumDt").dataTable({
@@ -356,7 +381,10 @@
                 }
                 },
                 {data: "id", visible: false}
-            ]
+            ],
+            "language": {
+                "emptyTable": "No premium profiles for now."
+            }
         });
 
         if(userId > 0) {
@@ -386,6 +414,35 @@
                 ]
             });
 
+            $("#followedYouDt").dataTable({
+                autoWidth: false,
+                info: false,
+                filter: false,
+                sort: false,
+                lengthChange: false,
+                displayLength: 25,
+                destroy: true,
+                ajax: {
+                    "type"  : "POST",
+                    "url"   : userActionUrl,
+                    "data"  : { action: "list", type: "followers" }
+                },
+                columns: [
+                    {data: "name", width: "50%", render: function(data, type, row) {
+                        return "<a href='https://www.twitter.com/" + row.name + "' target='_blank'>" + data + "</a>";
+                    }
+                    },
+                    {data: "time", width: "50%", render: function(data, type, row) {
+                        return "<span style='font-size: 14px;' class='pull-left'>" + data + "</span>";
+                    }
+                    },
+                    {data: "id", visible: false}
+                ],
+                "language": {
+                    "emptyTable": "No one is following you yet."
+                }
+            });
+
             $("#followedBackDt").dataTable({
                 autoWidth: false,
                 info: false,
@@ -409,7 +466,10 @@
                     }
                     },
                     {data: "id", visible: false}
-                ]
+                ],
+                "language": {
+                    "emptyTable": "No one followed you back yet."
+                }
             });
         }
 
