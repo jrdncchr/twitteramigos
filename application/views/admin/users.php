@@ -90,9 +90,41 @@
     </div>
 </div>
 
+
+<!-- Send Email Modal -->
+<div class="modal fade" id="send-email-modal" tabindex="-1" role="dialog" aria-labelledby="send-email-modal-label">
+    <div class="modal-dialog bs-example-modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="send-email-modal-label">Send Email</h4>
+            </div>
+            <div class="modal-body" id="send-email-form">
+                <div class="notice"></div>
+                <div class="form-group">
+                    <p class="form-control-static" id="send-email-to"></p>
+                </div>
+                <div class="form-group">
+                    <label for="send-email-title">Title</label>
+                    <input id="send-email-title" type="email" class="form-control input-sm required" aria-label="email"  />
+                </div>
+                <div class="form-group">
+                    <label for="send-email-message">Message</label>
+                    <textarea class="form-control required" id="send-email-message" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-xs" id="send-email-btn">Send Email</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var actionUrl = "<?php echo base_url() . 'admin/action'; ?>";
     var usersDt;
+    var userEmail;
 
     $(function() {
         $('#admin-nav-users').addClass('active');
@@ -158,6 +190,24 @@
             }
         });
 
+        $('#send-email-btn').on('click', function() {
+            if(validator.validateForm($('#send-email-form'))) {
+                var data = {
+                    action : 'send_email',
+                    email : {
+                        to : userEmail,
+                        title : $('#send-email-title').val(),
+                        message : $('#send-email-message').val()
+                    }
+                };
+
+                $.post(actionUrl, data, function(res) {
+                    toastr.success("Sending Email Successful!");
+                    $('#send-email-modal').modal("hide");
+                }, 'json');
+            }
+        });
+
         usersDt = $("#usersDt").dataTable({
             sorting: [4],
             bDestroy: true,
@@ -169,7 +219,7 @@
             columns: [
                 {data: "id",
                     render: function(data, type, row) {
-                        return "<button class='btn btn-xs btn-primary' onclick='subscribe(" + data + ", \"PREMIUM\");'><i class='fa fa-star'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='subscribe(" + data + ", \"TOP\");'><i class='fa fa-arrow-up'></i></button>";
+                        return "<button class='btn btn-xs btn-primary' onclick='subscribe(" + data + ", \"PREMIUM\");'><i class='fa fa-star'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='subscribe(" + data + ", \"TOP\");'><i class='fa fa-arrow-up'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='sendEmail(\"" + row.email + "\", \"" + row.name + "\");'><i class='fa fa-envelope'></i></button>";
                     }
                 },
                 {data: "name",
@@ -206,5 +256,11 @@
                 toastr.success("Subscribing user successful!");
             }
         }, 'json');
+    }
+
+    function sendEmail(email, name) {
+        $('#send-email-modal').modal("show");
+        $('#send-email-to').html("To: " + name);
+        userEmail = email;
     }
 </script>

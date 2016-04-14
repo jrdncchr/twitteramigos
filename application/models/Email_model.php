@@ -6,6 +6,45 @@ class Email_Model extends CI_Model {
         $this->load->database();
     }
 
+    public function send_mass_email($recipient, $title, $message) {
+        if($recipient == "All") {
+            $result = $this->db->get_where('user', array('email_notification' => 1));
+            $list = $result->result();
+        } else if($recipient == "Premium") {
+            $this->db->where(array('user.email_notification' => 1, 'subscription.service' => 'PREMIUM'));
+            $this->db->from('subscription');
+            $this->db->join('user', 'subscription.user_id = user.id', 'left');
+            $result = $this->db->get();
+            $list = $result->result();
+        } else if($recipient == "Subscribers") {
+            $this->db->where(array('user.email_notification' => 1));
+            $this->db->from('subscription');
+            $this->db->join('user', 'subscription.user_id = user.id', 'left');
+            $this->db->group_by('subscription.user_id');
+            $result = $this->db->get();
+            $list = $result->result();
+        }
+
+        foreach($list as $to) {
+            $this->send_email($to->email, $title, $message);
+        }
+        return array('success' => true);
+    }
+
+    public function send_email($to, $title, $message) {
+        if(!$this->is_localhost()) {
+            $CI =& get_instance();
+            $CI->load->model('settings_model');
+            $email_contact = $this->settings_model->get_settings_by_category('email_contact');
+            $headers = "From: Twitter Amigos" . "<" . $email_contact . ">"  . "\r\n";
+            if(mail($to, $title, $message, $headers)) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
     public function send_email_notification($follower, $followed, $follow_back_link) {
 
         if(!$this->is_localhost()) {

@@ -53,6 +53,18 @@ class Admin extends MY_Controller {
                 $result = $this->subscription_model->add($this->input->post('subscription'));
                 break;
 
+            case 'mass_email' :
+                $this->load->model('email_model');
+                $input = $this->input->post('email');
+                $result = $this->email_model->send_mass_email($input['recipient'], $input['title'], $input['message']);
+                break;
+
+            case 'send_email' :
+                $this->load->model('email_model');
+                $input = $this->input->post('email');
+                $result = $this->email_model->send_email($input['to'], $input['title'], $input['message']);
+                break;
+
             default:
                 $result['message'] = "Action not found.";
         }

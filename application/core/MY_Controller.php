@@ -37,7 +37,7 @@ class MY_Controller extends CI_Controller {
             $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
             $this->paypal['business'] = "jrdn-sb-business@gmail.com";
         } else {
-            $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+            $this->paypal['url'] = "https://www.paypal.com/cgi-bin/webscr";
             $this->paypal['business'] = $paypal['email'];
         }
 
