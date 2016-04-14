@@ -36,7 +36,7 @@ class Email_Model extends CI_Model {
             $CI =& get_instance();
             $CI->load->model('settings_model');
             $email_contact = $this->settings_model->get_settings_by_category('email_contact');
-            $headers = "From: Twitter Amigos" . "<" . $email_contact . ">"  . "\r\n";
+            $headers = "From: Twitter Amigos" . "<" . $email_contact['to'] . ">"  . "\r\n";
             if(mail($to, $title, $message, $headers)) {
                 return true;
             }
