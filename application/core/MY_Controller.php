@@ -33,6 +33,8 @@ class MY_Controller extends CI_Controller {
 
         $this->load->model('settings_model');
         $paypal = $this->settings_model->get_settings_by_category('paypal');
+        $this->paypal['top'] = $paypal['top'];
+        $this->paypal['premium'] = $paypal['premium'];
         if($this->is_localhost()) {
             $this->paypal['url'] = "https://www.sandbox.paypal.com/cgi-bin/webscr";
             $this->paypal['business'] = "jrdn-sb-business@gmail.com";

@@ -10,10 +10,15 @@ class Twitter extends MY_Controller {
 
     public function callback($controller = "main", $method = "", $value = "") {
         $oauth_token = $this->session->userdata('twitter_oauth_token');
-        $oauth = new \Abraham\TwitterOAuth\TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $oauth_token,  $_GET['oauth_token']);
+        $oauth_token_secret = $this->session->userdata('twitter_oauth_token_secret');
 
+        if(null == $oauth_token) {
+            $oauth_token = $_SESSION['oauth_token'];
+            $oauth_token_secret = $_SESSION['oauth_token_secret'];
+        }
+        $oauth = new \Abraham\TwitterOAuth\TwitterOAuth(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, $_REQUEST['oauth_token'],  $oauth_token_secret);
         $access_token = $oauth->oauth("oauth/access_token",
-            array("oauth_verifier" => $_GET['oauth_verifier']));
+            array("oauth_verifier" => $_REQUEST['oauth_verifier']));
 
         $twitter_access_token = (string) json_encode($access_token);
 

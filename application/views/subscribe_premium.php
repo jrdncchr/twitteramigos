@@ -9,7 +9,7 @@
         <?php } ?>
 
         <p>Hi <b><?php echo $user['user']->name; ?>!</b></p>
-        <p>Be a premium for a month for only $5, by subscribing you'll have benefits like: </p>
+        <p>Be a premium for a month for only $<?php echo $paypal['premium']; ?>, by subscribing you'll have benefits like: </p>
         <br/>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Profile is listed in the premium list.</p>
         <p class="text-primary"><i class="fa fa-arrow-right"></i> Be on the top of the users list again.</p>
@@ -26,7 +26,7 @@
             <!-- Specify details about the item that buyers will purchase. -->
             <input type="hidden" name="item_name" value="Subscribe as Premium [ <?php echo $user['user']->name; ?> ]">
             <input type="hidden" name="item_number" id="<?php echo $user['user']->twitter_id; ?>" />
-            <input type="hidden" name="amount" value="5">
+            <input type="hidden" name="amount" value="<?php echo $paypal['premium']; ?>">
             <input type="hidden" name="currency_code" value="USD">
 
             <!-- Specify URLs -->

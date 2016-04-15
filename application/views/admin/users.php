@@ -219,7 +219,12 @@
             columns: [
                 {data: "id",
                     render: function(data, type, row) {
-                        return "<button class='btn btn-xs btn-primary' onclick='subscribe(" + data + ", \"PREMIUM\");'><i class='fa fa-star'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='subscribe(" + data + ", \"TOP\");'><i class='fa fa-arrow-up'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='sendEmail(\"" + row.email + "\", \"" + row.name + "\");'><i class='fa fa-envelope'></i></button>";
+                        var emailBtn = "&nbsp;<button class='btn btn-xs btn-default' onclick='sendEmail(\"" + row.email + "\", \"" + row.name + "\");'><i class='fa fa-envelope'></i></button>";
+                        var actionButtons = "<button class='btn btn-xs btn-primary' onclick='subscribe(" + data + ", \"PREMIUM\");'><i class='fa fa-star'></i></button>&nbsp;<button class='btn btn-xs btn-default' onclick='subscribe(" + data + ", \"TOP\");'><i class='fa fa-arrow-up'></i></button>";
+                        if(row.email) {
+                            actionButtons += emailBtn;
+                        }
+                        return actionButtons;
                     }
                 },
                 {data: "name",

@@ -59,7 +59,8 @@ class Email_Model extends CI_Model {
             $subject = "Twitter Amigos - " . $follower->name . " followed you on twitter!";
             $content = $email_notification['body'] . "\r\n\r\n";
             $content .= "<br/><br />
-                        <a href='" . base_url() . "twitter/follow_back/".$follower->twitter_id."/".$followed->twitter_id."/".$follow_back_link ."'>Follow Back Link</a>";
+                        <a href='" . base_url() . "twitter/follow_back/".$follower->twitter_id."/".$followed->twitter_id."/".$follow_back_link ."'>Follow Back Link</a>" . "\r\n\r\n";
+            $content .= $email_notification['body_bottom'];
 
             mail($followed->email, $subject, $content, $headers);
         }

@@ -27,12 +27,16 @@
                         </div>
                         <div class="form-group">
                             <label for="notification-cc">CC <i>(Add comma for multiple cc)</i></label>
-                            <input id="notification-cc" type="text" class="form-control email required"
+                            <input id="notification-cc" type="text" class="form-control email"
                                    value="<?php echo $email_notification['cc']; ?>" />
                         </div>
                         <div class="form-group">
                             <label for="notification-body">* Body</label>
                             <textarea id="notification-body" class="form-control required" rows="8"><?php echo $email_notification['body'] ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="notification-body-bottom">* Body Bottom After Link</label>
+                            <textarea id="notification-body-bottom" class="form-control required" rows="8"><?php echo $email_notification['body_bottom'] ?></textarea>
                         </div>
                     </div>
                     <button class="btn btn-xs btn-success" id="save-email-notification-btn">Save Email Notification</button>
@@ -63,8 +67,18 @@
                             <input id="paypal-email" type="text" class="form-control email required"
                                    value="<?php echo $paypal['email']; ?>" />
                         </div>
+                        <div class="form-group">
+                            <label for="paypal-top">* Top Price</label>
+                            <input id="paypal-top" type="text" class="form-control required"
+                                   value="<?php echo $paypal['top']; ?>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="paypal-premium">* Premium Price</label>
+                            <input id="paypal-premium" type="text" class="form-control required"
+                                   value="<?php echo $paypal['premium']; ?>" />
+                        </div>
                     </div>
-                    <button class="btn btn-xs btn-success" id="save-paypal-email-btn">Save PayPal Email</button>
+                    <button class="btn btn-xs btn-success" id="save-paypal-email-btn">Save PayPal Settings</button>
                 </div>
             </div>
         </div>
@@ -121,7 +135,8 @@
                         from : $('#notification-from').val(),
                         name : $('#notification-name').val(),
                         cc : $('#notification-cc').val(),
-                        body : $('#notification-body').val()
+                        body : $('#notification-body').val(),
+                        body_bottom : $('#notification-body-bottom').val()
                     }
                 };
 
@@ -161,7 +176,9 @@
                     action : 'settings_update',
                     category : 'paypal',
                     settings : {
-                        email : $('#paypal-email').val()
+                        email : $('#paypal-email').val(),
+                        top : $('#paypal-top').val(),
+                        premium : $('#paypal-premium').val()
                     }
                 };
 

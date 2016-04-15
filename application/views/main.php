@@ -7,7 +7,82 @@
         padding-left: 30px !important;
     }
 </style>
-<div class="col-md-8">
+
+
+<div class="col-md-4 col-md-push-8">
+    <?php if(null == $user) { ?>
+        <div class="danero-box text-center">
+            <i class="fa fa-twitter fa-4x"></i>
+            <br />
+            <h3>Sign in and join us now using your Twitter Account</h3>
+            <br />
+            <a href="<?php echo $twitter_auth_url; ?>" class="btn btn-twitter">
+                <i class="fa fa-twitter"></i> Sign in with twitter
+            </a>
+        </div>
+    <?php } else { ?>
+        <div class="danero-box">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-2 text-center">
+                    <img src="<?php echo $user['twitter']->profile_image_url; ?>" class="img-circle" />
+                </div>
+                <div class="col-xs-10" style="padding-top: 10px; padding-left: 20px;">
+                    <a href="<?php echo "https://twitter.com/" . $user['twitter']->screen_name; ?>" target="_blank" style="font-size: 22px;">
+                        <?php echo $user['twitter']->screen_name; ?>
+                    </a>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-xs-12" id="emailDiv">
+                    <?php if(isset($user)) { ?>
+                        <?php if($user['user']->email != "") { ?>
+                            <i class="fa fa-envelope"></i> <?php echo isset($user) ? $user['user']->email : ""; ?>
+                        <?php } else { ?>
+                            <p class="text-danger" style="font-size: 13px;"><i class="fa fa-exclamation-circle"></i> You have not setup your email yet.</p>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <p class="text-danger" style="font-size: 13px;"><i class="fa fa-exclamation-circle"></i> You have not setup your email yet.</p>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#settingsModal">
+                        Settings
+                    </button>
+                    <a class="btn btn-danger btn-xs" href="<?php echo base_url() . "main/logout"; ?>">Logout</a>
+                </div>
+            </div>
+
+
+        </div>
+    <?php } ?>
+
+    <div class="danero-box text-center">
+        <a href="<?php echo base_url() . 'main/subscribe_premium'; ?>" class="btn btn-xs btn-primary" style="margin-bottom: 10px;"><i class="fa fa-rocket"></i> Subscribe as Premium</a>
+        <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> Premium profiles have higher chance to follow you back.</div>
+        <table id="premiumDt" class="table table-hover text-center" width="100%">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="danero-box text-center" style="padding: 10px;">
+        <?php echo $ads['right-1']; ?>
+    </div>
+
+    <div class="danero-box text-center" style="padding: 10px;">
+        <?php echo $ads['right-2']; ?>
+    </div>
+</div>
+
+<div class="col-md-8 col-md-pull-4">
     <div class="danero-box text-center" style="padding: 10px;">
         <?php echo $ads['top-1']; ?>
     </div>
@@ -93,80 +168,6 @@
     </div>
 </div>
 
-<div class="col-md-4">
-    <?php if(null == $user) { ?>
-        <div class="danero-box text-center">
-                <i class="fa fa-twitter fa-4x"></i>
-                <br />
-                <h3>Sign in and join us now using your Twitter Account</h3>
-                <br />
-                <a href="<?php echo $twitter_auth_url; ?>" class="btn btn-twitter">
-                    <i class="fa fa-twitter"></i> Sign in with twitter
-                </a>
-        </div>
-    <?php } else { ?>
-        <div class="danero-box">
-            <div class="row" style="margin-bottom: 10px;">
-                <div class="col-xs-2 text-center">
-                    <img src="<?php echo $user['twitter']->profile_image_url; ?>" class="img-circle" />
-                </div>
-                <div class="col-xs-10" style="padding-top: 10px; padding-left: 20px;">
-                    <a href="<?php echo "https://twitter.com/" . $user['twitter']->screen_name; ?>" target="_blank" style="font-size: 22px;">
-                        <?php echo $user['twitter']->screen_name; ?>
-                    </a>
-                </div>
-            </div>
-            <div class="row" style="margin-bottom: 10px;">
-                <div class="col-xs-12" id="emailDiv">
-                    <?php if(isset($user)) { ?>
-                        <?php if($user['user']->email != "") { ?>
-                            <i class="fa fa-envelope"></i> <?php echo isset($user) ? $user['user']->email : ""; ?>
-                        <?php } else { ?>
-                            <p class="text-danger" style="font-size: 13px;"><i class="fa fa-exclamation-circle"></i> You have not setup your email yet.</p>
-                        <?php } ?>
-                    <?php } else { ?>
-                        <p class="text-danger" style="font-size: 13px;"><i class="fa fa-exclamation-circle"></i> You have not setup your email yet.</p>
-                    <?php } ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#settingsModal">
-                        Settings
-                    </button>
-                    <a class="btn btn-danger btn-xs" href="<?php echo base_url() . "main/logout"; ?>">Logout</a>
-                </div>
-            </div>
-
-
-        </div>
-    <?php } ?>
-
-    <div class="danero-box text-center">
-        <a href="<?php echo base_url() . 'main/subscribe_premium'; ?>" class="btn btn-xs btn-primary" style="margin-bottom: 10px;"><i class="fa fa-rocket"></i> Subscribe as Premium</a>
-        <div class="alert alert-info"><i class="fa fa-thumbs-up"></i> Premium profiles have higher chance to follow you back.</div>
-        <table id="premiumDt" class="table table-hover text-center" width="100%">
-            <thead>
-            <tr>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="danero-box text-center" style="padding: 10px;">
-        <?php echo $ads['right-1']; ?>
-    </div>
-
-    <div class="danero-box text-center" style="padding: 10px;">
-        <?php echo $ads['right-2']; ?>
-    </div>
-</div>
-
-
 
 <!-- Settings Modal -->
 <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="topModalLabel">
@@ -225,7 +226,7 @@
                 <h4 class="modal-title" id="settingsModalLabel"><i class="fa fa-arrow-up"></i> Top</h4>
             </div>
             <div class="modal-body">
-                <p class="text-center">Put your profile on the top section again by donating $1.</p>
+                <p class="text-center">Put your profile on the top section again by donating $<?php echo $paypal['top']; ?>.</p>
                 <p></p>
                 <p class="text-center">Selected Profile: <span id="selected-profile" style="font-weight: bold;"></span></p>
                 <form action="<?php echo $paypal['url']; ?>" method="post" style="margin-top: 10px;">
@@ -239,8 +240,7 @@
                     <!-- Specify details about the item that buyers will purchase. -->
                     <input type="hidden" name="item_name" value="Make Profile Top" id="top_item_name">
                     <input type="hidden" name="item_number" id="top_item_number" />
-                    <input type="hidden" name="custom" id="CacheroJordan" />
-                    <input type="hidden" name="amount" value="1">
+                    <input type="hidden" name="amount" value="<?php echo $paypal['top']; ?>">
                     <input type="hidden" name="currency_code" value="USD">
 
                     <!-- Specify URLs -->
